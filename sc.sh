@@ -14,12 +14,12 @@ sudo systemctl stop motd-news.timer
 # Erstellen einer neuen MOTD mit ASCII-Art
 cat << EOF | sudo tee /etc/motd
 Welcome to
-  ____    ______  ____    _   _
- / ___|  |  ____||  _ \  | | | |
-| |      | |  __ | |_) | | | | |
-| |      | | |_ \|  __/  | | | |
-| \____ _| |__) | |     | |_| |
- \____/(_)_____/|_|      \___/ 
+  ____     ______  ____    _   _
+ / ___|   |  ____||  _ \  | | | |
+| |       | |  __ | |_) | | | | |
+| |       | | |_ \|  __/  | | | |
+| \____   | |__) | |      | |_| |
+ \____/    _____/|_|       \___/ 
 EOF
 
 # Deaktivieren der automatischen Tmux-Sitzung
