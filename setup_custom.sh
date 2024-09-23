@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Remove the VAST AI-specific banner by deleting it from the SSH configuration
+# 1. Remove the VAST AI-specific banner from the SSH configuration
 sudo sed -i '/Banner/d' /etc/ssh/sshd_config
 
-# Optionally, check and remove any existing banners, just to be thorough
+# 2. Remove any existing custom banner files
 sudo rm -f /etc/ssh/sshd-banner
 
-# Disable VAST AI’s auto-tmux feature by creating the necessary file
-touch ~/.no_auto_tmux
+# 3. Ensure the VAST AI message is not in the current environment or MOTD
+sudo rm -f /etc/motd.d/*vast*
 
-# Create a custom Message of the Day (MOTD) that will show up instead of VAST AI's
+# 4. Create a custom Message of the Day (MOTD) that will only display once
 cat << 'EOF' | sudo tee /etc/motd
 Welcome to your custom instance!
 
@@ -23,16 +23,14 @@ Welcome to your custom instance!
 Have a productive session!
 EOF
 
-# Ensure that the MOTD is shown on login by appending it to .bashrc
+# 5. Ensure MOTD is shown on login and prevent it from displaying twice
 if ! grep -q "cat /etc/motd" ~/.bashrc; then
     echo "cat /etc/motd" >> ~/.bashrc
 fi
 
-# Reload SSH configuration to apply changes without restarting the SSH service (to avoid disrupting connections)
-sudo systemctl reload ssh
+# 6. Remove redundant MOTD lines from .bashrc to avoid showing the message twice
+sed -i '/cat \/etc\/motd/d' ~/.bashrc
+echo "cat /etc/motd" >> ~/.bashrc
 
-# Optional: Disable showing the "Last Login" message to clean up the login further
-echo "PrintLastLog no" | sudo tee -a /etc/ssh/sshd_config
-
-# Reload SSH again to apply the "Last Login" configuration
+# 7. Reload SSH to apply changes without interrupting the connection
 sudo systemctl reload ssh
