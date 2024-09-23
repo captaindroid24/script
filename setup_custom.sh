@@ -11,7 +11,7 @@ touch ~/.no_auto_tmux
 
 # Create a custom Message of the Day (MOTD) that will show up instead of VAST AI's
 cat << 'EOF' | sudo tee /etc/motd
-Welcome to your custom VAST AI instance!
+Welcome to your custom instance!
 
   ____     ______  ____    _   _
  / ___|   |  ____||  _ \  | | | |
