@@ -5,7 +5,6 @@ sudo sed -i '/Banner/d' /etc/ssh/sshd_config
 
 # Create a custom MOTD (Message of the Day)
 cat << 'EOF' | sudo tee /etc/motd
-Welcome to your custom VAST AI instance!
 
   ____     ______  ____    _   _
  / ___|   |  ____||  _ \  | | | |
