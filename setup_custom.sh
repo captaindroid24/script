@@ -1,15 +1,23 @@
 #!/bin/bash
 
-# 1. Remove the VAST AI-specific banner from the SSH configuration
+# Remove the VAST AI-specific banner and tmux message
 sudo sed -i '/Banner/d' /etc/ssh/sshd_config
-
-# 2. Remove any existing custom banner files
 sudo rm -f /etc/ssh/sshd-banner
 
-# 3. Ensure the VAST AI message is not in the current environment or MOTD
-sudo rm -f /etc/motd.d/*vast*
+# Create .no_auto_tmux to disable VAST AI's tmux auto-launch
+touch ~/.no_auto_tmux
 
-# 4. Create a custom Message of the Day (MOTD) that will only display once
+# Kill any existing tmux session
+tmux kill-server
+
+# Remove any lingering VAST AI tmux message from .bashrc
+sudo sed -i '/Welcome to your vast.ai container/d' ~/.bashrc
+
+# Ensure MOTD is shown on login and prevent it from displaying twice
+sed -i '/cat \/etc\/motd/d' ~/.bashrc
+echo "cat /etc/motd" >> ~/.bashrc
+
+# Create a custom MOTD (Message of the Day)
 cat << 'EOF' | sudo tee /etc/motd
 Welcome to your custom instance!
 
@@ -23,14 +31,5 @@ Welcome to your custom instance!
 Have a productive session!
 EOF
 
-# 5. Ensure MOTD is shown on login and prevent it from displaying twice
-if ! grep -q "cat /etc/motd" ~/.bashrc; then
-    echo "cat /etc/motd" >> ~/.bashrc
-fi
-
-# 6. Remove redundant MOTD lines from .bashrc to avoid showing the message twice
-sed -i '/cat \/etc\/motd/d' ~/.bashrc
-echo "cat /etc/motd" >> ~/.bashrc
-
-# 7. Reload SSH to apply changes without interrupting the connection
+# Reload SSH to apply changes without interrupting the connection
 sudo systemctl reload ssh
