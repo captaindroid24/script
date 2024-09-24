@@ -12,11 +12,6 @@ tmux kill-server  # Kill any running tmux sessions
 sudo sed -i '/Welcome to your vast.ai container/d' ~/.bashrc
 sudo sed -i '/tmux attach-session/d' ~/.bashrc
 
-# Remove reference to /root/.vast_containerlabel if it exists in .bashrc
-sudo sed -i '/vast_containerlabel/d' ~/.bashrc
-
-# Run the find command to delete all files containing "vast"
-find / -type f -iname "*vast*" -delete 2>/dev/null  # Deletes all files with 'vast' in their names
 
 # Disable motd-news services and Ubuntu login messages
 sudo chmod -x /etc/update-motd.d/*
