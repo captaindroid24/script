@@ -16,8 +16,6 @@ sudo sed -i '/tmux attach-session/d' ~/.bashrc
 sudo grep -r "vast.ai" /etc | sudo xargs rm -f  # Delete any file that contains vast.ai
 sudo grep -r "vast.ai" ~/.bashrc | sudo xargs sed -i '/vast.ai/d'
 
-# Run the find command to delete all files containing "vast"
-find / -type f -iname "*vast*" -delete 2>/dev/null  # Deletes all files with 'vast' in their names
 
 # Disable motd-news services and Ubuntu login messages
 sudo chmod -x /etc/update-motd.d/*
